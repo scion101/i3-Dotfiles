@@ -36,11 +36,7 @@ orange = #d65d0e
 [bar/bar]
 width = 100%
 height = 24pt
-radius = 7
-offset-x = 0%
-offset-y = 1%
-fixed-center = true
-bottom = false
+radius = 3
 
 ; dpi = 96
 
@@ -60,10 +56,9 @@ module-margin = 1
 #separator = |
 separator-foreground = ${colors.disabled}
 
-font-0 = "Hack Nerd Font:size=12;2"
+font-0 = "Hack Nerd Font:size=10;2"
 
 modules-left = xworkspaces 
-modules-center = 
 modules-right = eth pulseaudio memory cpu date
 
 cursor-click = pointer
@@ -153,17 +148,25 @@ format-prefix = " "
 format-prefix-foreground = ${colors.green}
 label = %percentage:2%%
 
-[module/eth]
+[network-base]
 type = internal/network
+interval = 5
+format-connected = <label-connected>
+format-disconnected = <label-disconnected>
+label-disconnected = %{F#F0C674}%ifname%%{F#707880} disconnected
+
+[module/wlan]
+inherit = network-base
+interface-type = wireless
+label-connected = %{F#F0C674}%ifname%%{F-} %essid% %local_ip% 
+
+[module/eth]
+inherit = network-base
 interface-type = wired
-interface = enp1s0
-interval = 3.0
-format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.green}
-label-connected = %local_ip%  %upspeed%  %downspeed% 
-format-label-connected-foreground = ${colors.foreground}
-format-disconnected-prefix = " " 
-format-disconnected-prefix-foreground = ${colors.red}
+label-prefix = " "
+format-prefix-foreground = ${colors.green}
+label-connected = %local_ip% %upspeed% %downspeed% 
+format-label-connetcted-foreground = ${colors.foreground}
 
 [module/date]
 type = internal/date
